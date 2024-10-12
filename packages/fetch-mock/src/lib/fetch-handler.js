@@ -76,7 +76,10 @@ FetchMock._fetchHandler = function ({ url, options, request, signal }) {
 	return new Promise((res, rej) => {
 		if (signal) {
 			const abort = () => {
-				rej(new DOMException('The operation was aborted.', 'AbortError'));
+				rej(
+					signal.reason ??
+						new DOMException('This operation was aborted', 'AbortError'),
+				);
 				done();
 			};
 			if (signal.aborted) {
